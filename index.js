@@ -12,9 +12,23 @@ function createWindow() {
             nodeIntegration: true,
             contextIsolation: false,
         },
+        transparent: true,
+ 
+        frame: false,
+        skipTaskbar: true, 
+        focusable: false, 
     });
+    
 
     mainWindow.loadFile('index.html');
+    mainWindow.on('ready-to-show', () => {
+        mainWindow.show();
+    })
+    mainWindow.setAlwaysOnTop(true, 'screen-saver');
+    mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    mainWindow.setFullScreenable(false);
+    mainWindow.setIgnoreMouseEvents(true);
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
@@ -46,10 +60,18 @@ const server = http.createServer((req, res) => {
                 const jsonData = JSON.parse(body);
                 console.log('Получен JSON:', jsonData);
 
-                // Отправляем данные в рендерер (окно Electron)
-                if (mainWindow) {
-                    mainWindow.webContents.send('json-data', jsonData);
+                if (jsonData && jsonData.items) {
+                    for (const [slot, item] of Object.entries(jsonData.items)) {
+                        if (item.name === 'item_radiance') {
+                            if (mainWindow) {
+                                console.log('Отправляем событие radik в рендерер'); // Логирование
+                                mainWindow.webContents.send('radik'); // Отправляем данные
+                            }
+                            break; // Прерываем цикл после нахождения
+                        }
+                    }
                 }
+
 
 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -70,6 +92,5 @@ const server = http.createServer((req, res) => {
 server.listen(4322, '0.0.0.0', () => {
     console.log('HTTP сервер слушает порт 4322');
 });
-
 
 

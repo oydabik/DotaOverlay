@@ -4,17 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electron JSON Data</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Полученные данные:</h1>
     <pre id="json-data"></pre>
-
+    <div id="radik-status"></div> <!-- Убедитесь, что этот элемент есть в HTML -->
+    <audio id="music" src="./data/fp_am.mp3" muted></audio>
     <script>
         const { ipcRenderer } = require('electron');
+        const music = document.getElementById('music');
 
         // Обработка полученных данных
-        ipcRenderer.on('json-data', (event, data) => {
-            document.getElementById('json-data').textContent = JSON.stringify(data, null, 2);
+        let isMusicPlayed = false;
+        ipcRenderer.on('radik', (event, data) => {
+            if(!isMusicPlayed){
+                music.muted = false; // Снимаем muted
+                music.play().catch(error => {
+                console.error('Ошибка воспроизведения музыки:', error);
+                });
+                isMusicPlayed = true;
+            }
+            
         });
     </script>
 </body>
