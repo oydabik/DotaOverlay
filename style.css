@@ -2,4 +2,7 @@ body {
     font-family: 'Arial', sans-serif;
     color: greenyellow;
     font-size: smaller;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
   }

@@ -6,17 +6,17 @@ let mainWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        //width: 800,
+        //height: 600,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
         },
         transparent: true,
- 
         frame: false,
         skipTaskbar: true, 
         focusable: false, 
+        fullscreen:true
     });
     
 
@@ -28,6 +28,7 @@ function createWindow() {
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     mainWindow.setFullScreenable(false);
     mainWindow.setIgnoreMouseEvents(true);
+    mainWindow.setFullScreenable(false);
 
     mainWindow.on('closed', () => {
         mainWindow = null;
@@ -59,20 +60,25 @@ const server = http.createServer((req, res) => {
             try {
                 const jsonData = JSON.parse(body);
                 console.log('Получен JSON:', jsonData);
+                if (mainWindow){
+                    mainWindow.webContents.send('json-data', jsonData)
+                }
 
                 if (jsonData && jsonData.items) {
                     for (const [slot, item] of Object.entries(jsonData.items)) {
                         if (item.name === 'item_radiance') {
                             if (mainWindow) {
-                                console.log('Отправляем событие radik в рендерер'); // Логирование
-                                mainWindow.webContents.send('radik'); // Отправляем данные
+                                mainWindow.webContents.send('radik');
                             }
-                            break; // Прерываем цикл после нахождения
+                            break;
                         }
                     }
                 }
 
-
+                if(jsonData.hero.respawn_seconds>0){
+                    console.log('ymep');
+                    mainWindow.webContents.send('died');
+                } 
 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ status: 'OK', data: jsonData }));

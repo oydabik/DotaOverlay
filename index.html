@@ -7,24 +7,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <pre id="json-data"></pre>
-    <div id="radik-status"></div> <!-- Убедитесь, что этот элемент есть в HTML -->
     <audio id="music" src="./data/fp_am.mp3" muted></audio>
+    <h1>data:</h1>
+    <video id="video" muted src="./data/you_died.mp4" style="display: none;">
+        Ваш браузер не поддерживает видео.
+    </video>
+    <pre id="json-data"></pre>
     <script>
         const { ipcRenderer } = require('electron');
         const music = document.getElementById('music');
-
-        // Обработка полученных данных
+        const video = document.getElementById('video');
+        const jsonDataElement = document.getElementById('json-data');
+        let isVideoPlayed = false;
         let isMusicPlayed = false;
+
+        ipcRenderer.on('json-data', (event, data) => {
+            jsonDataElement.textContent = JSON.stringify(data, null, 2);
+        });
+
+        ipcRenderer.on('died', (event, data) => {
+            isVideoPlayed = true;   
+            if(isVideoPlayed){
+                video.style.display = 'block';
+                video.muted = false;
+                video.play().catch(error => {
+                console.error('Ошибка воспроизведения видео:', error);
+            });
+            }
+            isVideoPlayed = false;
+            video.addEventListener('ended', () => {
+                video.style.display = 'none';
+            });
+        });
+
         ipcRenderer.on('radik', (event, data) => {
             if(!isMusicPlayed){
-                music.muted = false; // Снимаем muted
+                music.muted = false;
                 music.play().catch(error => {
                 console.error('Ошибка воспроизведения музыки:', error);
                 });
                 isMusicPlayed = true;
             }
-            
         });
     </script>
 </body>
