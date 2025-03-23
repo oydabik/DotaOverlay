@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron JSON Data</title>
+</head>
+<body>
+    <h1>Полученные данные:</h1>
+    <pre id="json-data"></pre>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        // Обработка полученных данных
+        ipcRenderer.on('json-data', (event, data) => {
+            document.getElementById('json-data').textContent = JSON.stringify(data, null, 2);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "dota2-overlay",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^25.0.0"
+  }
+}
