@@ -3,7 +3,6 @@ const http = require('http');
 
 let mainWindow;
 
-
 function createWindow() {
     mainWindow = new BrowserWindow({
         //width: 800,
@@ -59,7 +58,7 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const jsonData = JSON.parse(body);
-                console.log('Получен JSON:', jsonData);
+                console.log('Got JSON:', jsonData);
                 if (mainWindow){
                     mainWindow.webContents.send('json-data', jsonData)
                 }
@@ -68,6 +67,7 @@ const server = http.createServer((req, res) => {
                     for (const [slot, item] of Object.entries(jsonData.items)) {
                         if (item.name === 'item_radiance') {
                             if (mainWindow) {
+                                console.log('radiance');
                                 mainWindow.webContents.send('radik');
                             }
                             break;
@@ -76,13 +76,14 @@ const server = http.createServer((req, res) => {
                 }
 
                 if(jsonData.hero.respawn_seconds>0){
+                    console.log('ymep')
                     mainWindow.webContents.send('died');
                 } 
 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ status: 'OK', data: jsonData }));
             } catch (error) {
-                console.error('Ошибка при парсинге JSON:', error);
+                console.error('Error parsing JSON:', error);
 
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ status: 'ERROR', message: 'Invalid JSON' }));
@@ -95,7 +96,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(4322, '0.0.0.0', () => {
-    console.log('HTTP сервер слушает порт 4322');
+    console.log('HTTP listening 4322');
 });
 
 
