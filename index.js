@@ -76,7 +76,6 @@ const server = http.createServer((req, res) => {
                 }
 
                 if(jsonData.hero.respawn_seconds>0){
-                    console.log('ymep');
                     mainWindow.webContents.send('died');
                 } 
 

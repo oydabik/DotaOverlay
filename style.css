@@ -1,8 +1,17 @@
 body {
     font-family: 'Arial', sans-serif;
     color: greenyellow;
-    font-size: smaller;
+    font-size: small;
     margin: 0;
     padding: 0;
     overflow: hidden;
   }
+.stat{
+  font-size: 20;
+  color: rgb(152, 163, 190);
+  margin: 5.5% 0 0 0.5%;
+}
+.data{
+  display: flex;
+  justify-content: right;
+}

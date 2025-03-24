@@ -3,16 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electron JSON Data</title>
+    <title>TEST</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <main>
+        <div class="stat">
+            <div id="gpm">gpm
+                <script>
+                    const gpmData = document.getElementById('gpm');
+                    ipcRenderer.on('json-data', (event, data) => {
+                    
+                    });
+                </script>
+            </div>
+            <div id="xpm">xpm</div>
+            <div id="kill-streak">streak</div>
+            <div id="kill-list">kill list</div>
+        <div>
+    </main>
     <audio id="music" src="./data/fp_am.mp3" muted></audio>
     <h1>data:</h1>
     <video id="video" muted src="./data/you_died.mp4" style="display: none;">
         Ваш браузер не поддерживает видео.
     </video>
-    <pre id="json-data"></pre>
+    <pre id="json-data" class="data"></pre>
     <script>
         const { ipcRenderer } = require('electron');
         const music = document.getElementById('music');
