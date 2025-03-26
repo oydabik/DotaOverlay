@@ -1,8 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const http = require('http');
-
 let mainWindow;
-
 function createWindow() {
     mainWindow = new BrowserWindow({
         //width: 800,
@@ -17,8 +15,6 @@ function createWindow() {
         focusable: false, 
         fullscreen:true
     });
-    
-
     mainWindow.loadFile('index.html');
     mainWindow.on('ready-to-show', () => {
         mainWindow.show();
@@ -34,26 +30,22 @@ function createWindow() {
 }
 
 app.on('ready', createWindow);
-
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
-
 app.on('activate', () => {
     if (mainWindow === null) {
         createWindow();
     }
 });
-
 const server = http.createServer((req, res) => {
     if (req.method === 'POST') {
         let body = '';
         req.on('data', (chunk) => {
             body += chunk.toString();
         });
-
         req.on('end', () => {
             try {
                 const jsonData = JSON.parse(body);
@@ -61,7 +53,7 @@ const server = http.createServer((req, res) => {
                 if (mainWindow){
                     mainWindow.webContents.send('json-data', jsonData)
                 }
-
+                /*
                 if (jsonData && jsonData.items) {
                     for (const [slot, item] of Object.entries(jsonData.items)) {
                         if (item.name === 'item_radiance') {
@@ -73,27 +65,16 @@ const server = http.createServer((req, res) => {
                         }
                     }
                 }
-
                 if(jsonData.hero.respawn_seconds>0){
                     console.log('ymep')
                     mainWindow.webContents.send('died');
                 } 
-
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ status: 'OK', data: jsonData }));
+                */
             } catch (error) {
-                console.error('Error parsing JSON:', error);
-
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ status: 'ERROR', message: 'Invalid JSON' }));
             }
         });
-    } else {
-        res.writeHead(405, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'ERROR', message: 'Method Not Allowed' }));
     }
 });
-
 server.listen(4322, '0.0.0.0', () => {
     console.log('HTTP listening 4322');
 });

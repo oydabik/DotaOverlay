@@ -1,0 +1,39 @@
+<audio id="music" src="./data/fp_am.mp3" muted></audio>
+    <h1></h1>
+    <video id="video" muted src="./data/you_died.mp4" style="display: none;">
+        Ваш браузер не поддерживает видео.
+    </video>
+
+
+    const music = document.getElementById('music');
+        const video = document.getElementById('video');
+        const jsonDataElement = document.getElementById('json-data');
+
+        
+    let isVideoPlayed = false;
+    let isMusicPlayed = false;
+
+    ipcRenderer.on('died', (event, data) => {
+        isVideoPlayed = true;   
+        if(isVideoPlayed){
+            video.style.display = 'block';
+            video.muted = false;
+            video.play().catch(error => {
+            console.error('Ошибка воспроизведения видео:', error);
+        });
+        }
+        isVideoPlayed = false;
+        video.addEventListener('ended', () => {
+            video.style.display = 'none';
+        });
+    });
+
+    ipcRenderer.on('radik', (event, data) => {
+        if(!isMusicPlayed){
+            music.muted = false;
+            music.play().catch(error => {
+            console.error('Ошибка воспроизведения музыки:', error);
+            });
+            isMusicPlayed = true;
+        }
+    });

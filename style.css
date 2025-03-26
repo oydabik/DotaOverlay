@@ -12,13 +12,12 @@ body {
   width:max-content;
   height: max-content;
   color: azure;
-  font-size: 17px;
-  background-color: lightslategray;
-  margin-top: 2%;
+  font-size: 14px;
+  font-family: monospace;
+  margin-top: 8%;
   margin-left: 0.5%;
-
 }
 .data{
   display: flex;
-  justify-content: right;
+  justify-content: left;
 }
