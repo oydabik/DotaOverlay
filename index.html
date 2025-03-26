@@ -8,25 +8,35 @@
 </head>
 <body>
     <main>
+        
         <div class="stat">
             <div id="gpm"></div>
             <div id="xpm"></div>
             <div id="kill-streak"></div>
             <div id="kill-list"></div>
-        <div>
+            <div id="xpos"></div>
+            <div id="ypos"></div>
+        </div>
     </main>
+
+    <pre id="json-data" class="data"></pre>
+
     <audio id="music" src="./data/fp_am.mp3" muted></audio>
-    <h1>data:</h1>
+    <h1></h1>
     <video id="video" muted src="./data/you_died.mp4" style="display: none;">
         Ваш браузер не поддерживает видео.
     </video>
-    <pre id="json-data" class="data"></pre>
-    <script>
 
+        
+
+    <script>
+        const { ipcRenderer } = require('electron');
         const gpmData = document.getElementById('gpm');
         const xpmData = document.getElementById('xpm');
         const killStreakData = document.getElementById('kill-streak');
         const killListData = document.getElementById('kill-list');
+        const xposData = document.getElementById('xpos');
+        const yposData = document.getElementById('ypos');
 
         const music = document.getElementById('music');
         const video = document.getElementById('video');
@@ -35,11 +45,10 @@
         let isVideoPlayed = false;
         let isMusicPlayed = false;
 
-        const { ipcRenderer } = require('electron');
+        
 
         ipcRenderer.on('json-data', (event, data) => {
             jsonDataElement.textContent = JSON.stringify(data, null, 2);
-
             gpmValue = data.player.gpm;         
             gpmData.textContent = "gpm " + gpmValue; 
             xpmValue = data.player.xpm;
@@ -54,6 +63,8 @@
                 }
             }
             killListData.innerHTML = killListOutput;
+            xposData.textContent = "xpos " + data.hero.xpos;
+            yposData.textContent = "ypos" + data.hero.ypos;
         });
 
         ipcRenderer.on('died', (event, data) => {

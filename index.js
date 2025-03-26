@@ -11,11 +11,11 @@ function createWindow() {
             nodeIntegration: true,
             contextIsolation: false,
         },
-        //transparent: true,
-        //frame: false,
-        //skipTaskbar: true, 
-        //focusable: false, 
-        //fullscreen:true
+        transparent: true,
+        frame: false,
+        skipTaskbar: true, 
+        focusable: false, 
+        fullscreen:true
     });
     
 
@@ -23,10 +23,9 @@ function createWindow() {
     mainWindow.on('ready-to-show', () => {
         mainWindow.show();
     })
-    //mainWindow.setAlwaysOnTop(true, 'screen-saver');
-    //mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-    mainWindow.setFullScreenable(false);
-    //mainWindow.setIgnoreMouseEvents(true);
+    mainWindow.setAlwaysOnTop(true, 'screen-saver');
+    mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    mainWindow.setIgnoreMouseEvents(true);
     mainWindow.setFullScreenable(false);
 
     mainWindow.on('closed', () => {

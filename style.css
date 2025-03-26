@@ -5,11 +5,18 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    height: 100vh; /* Важно для корректного позиционирования */
   }
+
 .stat{
-  font-size: 20;
-  color: rgb(188, 197, 219);
-  margin: 5.5% 0 0 0.5%;
+  width:max-content;
+  height: max-content;
+  color: azure;
+  font-size: 17px;
+  background-color: lightslategray;
+  margin-top: 2%;
+  margin-left: 0.5%;
+
 }
 .data{
   display: flex;
