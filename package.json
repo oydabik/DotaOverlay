@@ -1,11 +1,32 @@
 {
   "name": "dota2-overlay",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha.0",
+  "description": "Dota 2 Game State Overlay",
+  "author": "Test Name <test.email@example.com>",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder",
+    "pack": "electron-builder --dir"
   },
   "devDependencies": {
-    "electron": "^25.0.0"
+    "electron": "^25.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.test.dota2overlay",
+    "productName": "Dota 2 Overlay",
+    "copyright": "Copyright © 2025 test Name",
+    "win": {
+      "target": "nsis",
+      "icon": "data/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "data/icon.ico",
+      "uninstallerIcon": "data/icon.ico",
+      "installerHeaderIcon": "data/icon.ico"
+    }
   }
 }

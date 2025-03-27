@@ -49,8 +49,9 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const jsonData = JSON.parse(body);
-                console.log('Got JSON:', jsonData);
+                console.log('Got JSON');
                 if (mainWindow){
+                    console.log('Send JSON');
                     mainWindow.webContents.send('json-data', jsonData)
                 }
                 /*
@@ -78,5 +79,4 @@ const server = http.createServer((req, res) => {
 server.listen(4322, '0.0.0.0', () => {
     console.log('HTTP listening 4322');
 });
-
 
