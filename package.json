@@ -6,27 +6,35 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder",
-    "pack": "electron-builder --dir"
+    "clean": "rimraf dist",
+    "build": "electron-builder --win --x64",
+    "full-build": "npm run clean && npm run build",
+    "release": "npm run full-build && electron-builder --win --x64 --publish never"
   },
   "devDependencies": {
     "electron": "^25.0.0",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "rimraf": "^5.0.5" 
   },
   "build": {
     "appId": "com.test.dota2overlay",
     "productName": "Dota 2 Overlay",
-    "copyright": "Copyright © 2025 test Name",
+    "copyright": "Copyright © 2025 Test Name",
+    "directories": {
+      "output": "dist"
+    },
     "win": {
       "target": "nsis",
-      "icon": "data/icon.ico"
+      "icon": "data/icon.ico",
+      "artifactName": "${productName}-${version}-Setup.${ext}"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "installerIcon": "data/icon.ico",
       "uninstallerIcon": "data/icon.ico",
-      "installerHeaderIcon": "data/icon.ico"
+      "installerHeaderIcon": "data/icon.ico",
+      "deleteAppDataOnUninstall": true
     }
   }
 }
