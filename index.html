@@ -15,6 +15,10 @@
             <div id="kill-list"></div>
             <div id="xpos"></div>
             <div id="ypos"></div>
+            <div id="GoldFromHeroKills"></div>
+            <div id="GoldFromCreepKills"></div>
+            <div id="GoldFromIncome"></div>
+            <div id="GoldFromShared"></div>
         </div>
     </main>
     <!--    JSON FILE
@@ -22,20 +26,29 @@
     -->
     <script>
         const { ipcRenderer } = require('electron');
+
         const gpmData = document.getElementById('gpm');
         const xpmData = document.getElementById('xpm');
         const killStreakData = document.getElementById('kill-streak');
         const killListData = document.getElementById('kill-list');
         const xposData = document.getElementById('xpos');
         const yposData = document.getElementById('ypos');
+        const goldHeroKills = document.getElementById('GoldFromHeroKills');
+        const goldCreepKills = document.getElementById('GoldFromCreepKills');
+        const goldIncome = document.getElementById('GoldFromIncome');
+        const goldShared = document.getElementById('GoldFromShared');
+
         ipcRenderer.on('json-data', (event, data) => {
             //jsonDataElement.textContent = JSON.stringify(data, null, 2);
             gpmValue = data.player.gpm;         
             gpmData.textContent = "gpm " + gpmValue; 
+
             xpmValue = data.player.xpm;
             xpmData.textContent = "xpm " + xpmValue;
+
             killStreakValue = data.player.kill_streak;
             killStreakData.textContent = "kill streak " + killStreakValue;
+
             const killListValue = data.player.kill_list;
             let killListOutput = "kill list:<br>";
             for (const key in killListValue){
@@ -44,8 +57,14 @@
                 }
             }
             killListData.innerHTML = killListOutput;
+
             xposData.textContent = "xpos " + data.hero.xpos;
-            yposData.textContent = "ypos" + data.hero.ypos;
+            yposData.textContent = "ypos " + data.hero.ypos;
+
+            goldHeroKills.textContent = "gHeroKills " + data.player.gold_from_hero_kills;
+            goldCreepKills.textContent = "gCreepKills " + data.player.gold_from_creep_kills;
+            goldIncome.textContent = "gIncome " + data.player.gold_from_income;
+            goldShared.textContent = "gShared " + data.player.gold_from_shared;
         });
     </script>
 </body>
